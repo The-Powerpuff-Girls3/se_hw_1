@@ -42,9 +42,10 @@ jobs:
     - name: Run tests with coverage
       run: |
         pytest
-        - name: Run tests and upload coverage
-        run: |
-          coverage run -m pytest
-          coveralls
+    - name: Run tests and upload coverage
+      run: |
+        coverage run -m pytest
+        coverage report
+        coveralls
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
