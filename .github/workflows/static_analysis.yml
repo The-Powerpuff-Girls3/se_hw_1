@@ -39,7 +39,7 @@ jobs:
         run: |
           pyright hw2 --outputjson > pyright_report.json || true
 
-      - name: Upload reports
+      - name: Upload lint reports
         uses: actions/upload-artifact@v3
         with:
           name: lint-reports

@@ -2,9 +2,10 @@ name: Update Badges
 
 on:
   workflow_run:
-    workflows: ["Static Analysis"]  # 确保依赖于 "Static Analysis" 工作流
+    workflows: ["Static Analysis"]
     types:
       - completed
+    status: success
 
 jobs:
   update-badges:
@@ -14,28 +15,32 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: List files in workspace
+        run: ls -R
+
       - name: Download lint reports
         uses: actions/download-artifact@v3
         with:
           name: lint-reports
 
+      - name: List downloaded artifact files
+        run: |
+          echo "Listing files in current directory:"
+          ls -la
+
       - name: Generate badge URLs
         id: badge
         run: |
-          # Generate pylint badge URL
           if [ -f pylint_report.txt ]; then
             pylint_issues=$(grep -c '' pylint_report.txt || echo "0")
           else
             pylint_issues=0
           fi
-
-          # Generate pyright badge URL
           if [ -f pyright_report.json ]; then
             pyright_issues=$(jq '.results[] | select(.severity == "error") | length' pyright_report.json || echo "0")
           else
             pyright_issues=0
           fi
-
           pylint_badge="https://img.shields.io/badge/pylint-${pylint_issues}-red"
           pyright_badge="https://img.shields.io/badge/pyright-${pyright_issues}-red"
           echo "pylint_badge=$pylint_badge" >> $GITHUB_ENV
