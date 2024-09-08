@@ -44,8 +44,8 @@ jobs:
       - name: Generate badge URLs
         id: badge
         run: |
-          # Compute pylint issues
-          pylint_issues=$(grep -c '' pylint_report.txt || echo "0")
+          # Extract pylint score from pylint output
+          pylint_score=$(grep -Po '(?<=Your code has been rated at )\d+\.\d+(?=/10)' pylint_report.txt || echo "0")
           
           # Compute pyright issues
           if [ -f pyright_report.json ]; then
@@ -53,26 +53,24 @@ jobs:
           else
             pyright_issues=0
           fi
-          
-          # Calculate pylint score and set color
-          pylint_score=$(echo "scale=2; $pylint_issues / 10" | bc)
+
+          # Set pylint badge color
           if (( $(echo "$pylint_score == 10" | bc -l) )); then
             pylint_color="brightgreen"
           else
             pylint_color="red"
           fi
-          
-          # Calculate pyright score and set color
+
+          # Set pyright badge color
           if [ "$pyright_issues" -eq 0 ]; then
             pyright_color="brightgreen"
           else
             pyright_color="red"
           fi
-          pyright_score=$pyright_issues
 
           # Generate badge URLs
           pylint_badge="https://img.shields.io/badge/pylint-${pylint_score}%2F10-${pylint_color}"
-          pyright_badge="https://img.shields.io/badge/pyright-${pyright_score}-${pyright_color}"
+          pyright_badge="https://img.shields.io/badge/pyright-${pyright_issues}-${pyright_color}"
           echo "pylint_badge=$pylint_badge" >> $GITHUB_ENV
           echo "pyright_badge=$pyright_badge" >> $GITHUB_ENV
 

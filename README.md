@@ -14,4 +14,3 @@ Feel free to explore, contribute, and provide feedback!
 ## Static Analysis for HW2
 ![Pylint](https://img.shields.io/badge/pylint-.40%2F10-red) 
 ![Pyright](https://img.shields.io/badge/pyright-0-brightgreen)
-This is a test change
