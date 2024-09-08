@@ -15,3 +15,7 @@ Feel free to explore, contribute, and provide feedback!
 ![Pylint](https://img.shields.io/badge/pylint-10.00%2F10-brightgreen) 
 ![Autopep8](https://img.shields.io/badge/autopep8-imperfect-red)
 ![Pyright](https://img.shields.io/badge/pyright-0%20vulnerabilities-brightgreen)
+
+- **Pylint**: Code rating
+- **Autopep8**: Indicates whether the code adheres to PEP 8 style guidelines
+- **Pyright**: Displays the number of code vulnerabilities
