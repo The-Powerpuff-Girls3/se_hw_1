@@ -6,7 +6,7 @@ to generate a random array.
 import rand
 
 
-def merge_sort(input_array):
+def merge_sort(array_to_sort):
     """
     Perform a merge sort on the input array.
 
@@ -16,11 +16,11 @@ def merge_sort(input_array):
     Returns:
         list: A sorted list.
     """
-    if len(input_array) == 1:
-        return input_array
+    if len(array_to_sort) == 1:
+        return array_to_sort
 
-    half = len(input_array) // 2
-    return recombine(merge_sort(input_array[:half]), merge_sort(input_array[half:]))
+    half = len(array_to_sort) // 2
+    return recombine(merge_sort(array_to_sort[:half]), merge_sort(array_to_sort[half:]))
 
 def recombine(left_arr, right_arr):
     """
