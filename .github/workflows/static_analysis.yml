@@ -1,4 +1,4 @@
-name: Static Analysis
+name: Static Analysis and Update Badges
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - 'hw2/**'
 
 jobs:
-  lint:
+  static-analysis:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
 
       - name: Run autopep8
         run: |
-          autopep8 --diff --recursive hw2
+          autopep8 --in-place --recursive hw2
 
       - name: Run pylint
         run: |
@@ -45,3 +45,51 @@ jobs:
           path: |
             pylint_report.txt
             pyright_report.json
+
+  update-badges:
+    runs-on: ubuntu-latest
+    needs: static-analysis
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download lint reports
+        uses: actions/download-artifact@v3
+        with:
+          name: lint-reports
+
+      - name: List downloaded artifact files
+        run: |
+          echo "Directory contents after downloading artifact:"
+          ls -la
+
+      - name: Generate badge URLs
+        id: badge
+        run: |
+          if [ -f pylint_report.txt ]; then
+            pylint_issues=$(grep -c '' pylint_report.txt || echo "0")
+          else
+            pylint_issues=0
+          fi
+          if [ -f pyright_report.json ]; then
+            pyright_issues=$(jq '.results[] | select(.severity == "error") | length' pyright_report.json || echo "0")
+          else
+            pyright_issues=0
+          fi
+          pylint_badge="https://img.shields.io/badge/pylint-${pylint_issues}-red"
+          pyright_badge="https://img.shields.io/badge/pyright-${pyright_issues}-red"
+          echo "pylint_badge=$pylint_badge" >> $GITHUB_ENV
+          echo "pyright_badge=$pyright_badge" >> $GITHUB_ENV
+
+      - name: Update README with badges
+        run: |
+          sed -i "s|!\\[Pylint\\](.*)|![Pylint](${{ env.pylint_badge }})|g" README.md
+          sed -i "s|!\\[Pyright\\](.*)|![Pyright](${{ env.pyright_badge }})|g" README.md
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: 'github-actions'
+          author_email: 'github-actions@github.com'
+          message: 'Update README.md with latest badges'
