@@ -2,9 +2,20 @@ import subprocess
 
 
 def random_array(arr):
-    shuffled_num = None
-    for i in range(len(arr)):
+    """
+    Generate a random array by shuffling numbers.
+
+    Args:
+        arr (list): A list initialized with None values.
+
+    Returns:
+        list: A list filled with randomly generated numbers.
+    """
+    for index, _ in enumerate(arr):
+        # Use subprocess to generate a random number between 1 and 20
         shuffled_num = subprocess.run(
-            ["shuf", "-i1-20", "-n1"], capture_output=True)
-        arr[i] = int(shuffled_num.stdout)
+            ["shuf", "-i1-20", "-n1"], capture_output=True, text=True, check=True
+        )
+        # Convert the output to an integer and assign it to the current position
+        arr[index] = int(shuffled_num.stdout.strip())
     return arr
