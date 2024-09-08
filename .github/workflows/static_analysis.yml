@@ -57,12 +57,13 @@ jobs:
             pyright_issues=0
           fi
 
-          # Set pylint badge color
+          # Set pylint badge color and text
           if (( $(echo "$pylint_score == 10" | bc -l) )); then
             pylint_color="brightgreen"
           else
             pylint_color="red"
           fi
+          pylint_badge="https://img.shields.io/badge/pylint-${pylint_score}%2F10-${pylint_color}"
 
           # Set autopep8 badge color and text
           if [ "$autopep8_changes" -eq 0 ]; then
@@ -72,20 +73,19 @@ jobs:
             autopep8_color="red"
             autopep8_text="imperfect"
           fi
+          autopep8_badge="https://img.shields.io/badge/autopep8-${autopep8_text}-${autopep8_color}"
 
           # Set pyright badge color and text
           if [ "$pyright_issues" -eq 0 ]; then
             pyright_color="brightgreen"
-            pyright_text="0 vulnerabilities"
+            pyright_text="0%20vulnerabilities"
           else
             pyright_color="red"
-            pyright_text="${pyright_issues} vulnerability$( [ "$pyright_issues" -gt 1 ] && echo "ies" || echo "y" )"
+            pyright_text="${pyright_issues}%20vulnerability$( [ "$pyright_issues" -gt 1 ] && echo "ies" || echo "y" )"
           fi
-
-          # Generate badge URLs
-          pylint_badge="https://img.shields.io/badge/pylint-${pylint_score}%2F10-${pylint_color}"
-          autopep8_badge="https://img.shields.io/badge/autopep8-${autopep8_text}-${autopep8_color}"
           pyright_badge="https://img.shields.io/badge/pyright-${pyright_text}-${pyright_color}"
+
+          # Output badge URLs to be used in the next step
           echo "pylint_badge=$pylint_badge" >> $GITHUB_ENV
           echo "autopep8_badge=$autopep8_badge" >> $GITHUB_ENV
           echo "pyright_badge=$pyright_badge" >> $GITHUB_ENV
