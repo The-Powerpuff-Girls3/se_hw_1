@@ -9,7 +9,6 @@ on:
 jobs:
   update-badges:
     runs-on: ubuntu-latest
-    needs: lint  # 依赖于 "Static Analysis" 工作流的 "lint" 作业
 
     steps:
       - name: Checkout code
@@ -23,12 +22,14 @@ jobs:
       - name: Generate badge URLs
         id: badge
         run: |
+          # Generate pylint badge URL
           if [ -f pylint_report.txt ]; then
             pylint_issues=$(grep -c '' pylint_report.txt || echo "0")
           else
             pylint_issues=0
           fi
 
+          # Generate pyright badge URL
           if [ -f pyright_report.json ]; then
             pyright_issues=$(jq '.results[] | select(.severity == "error") | length' pyright_report.json || echo "0")
           else
@@ -37,7 +38,6 @@ jobs:
 
           pylint_badge="https://img.shields.io/badge/pylint-${pylint_issues}-red"
           pyright_badge="https://img.shields.io/badge/pyright-${pyright_issues}-red"
-
           echo "pylint_badge=$pylint_badge" >> $GITHUB_ENV
           echo "pyright_badge=$pyright_badge" >> $GITHUB_ENV
 
