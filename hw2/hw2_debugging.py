@@ -1,7 +1,12 @@
+"""
+This module implements merge sort using helper functions from the rand module
+to generate a random array.
+"""
+
 import rand
 
 
-def merge_sort(arr):
+def merge_sort(input_array):
     """
     Perform a merge sort on the input array.
 
@@ -11,11 +16,11 @@ def merge_sort(arr):
     Returns:
         list: A sorted list.
     """
-    if len(arr) == 1:
-        return arr
+    if len(input_array) == 1:
+        return input_array
 
-    half = len(arr) // 2
-    return recombine(merge_sort(arr[:half]), merge_sort(arr[half:]))
+    half = len(input_array) // 2
+    return recombine(merge_sort(input_array[:half]), merge_sort(input_array[half:]))
 
 def recombine(left_arr, right_arr):
     """
@@ -49,7 +54,10 @@ def recombine(left_arr, right_arr):
     return merge_arr
 
 
-arr = rand.random_array([None] * 20)
-arr_out = merge_sort(arr)
+# Generate a random array using the function from rand module
+input_array = rand.random_array([None] * 20)
+sorted_array = merge_sort(input_array)
 
-print(arr_out)
+
+# Print the sorted output array
+print(sorted_array)
