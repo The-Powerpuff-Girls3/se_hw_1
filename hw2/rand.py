@@ -18,10 +18,14 @@ def random_array(arr):
         list: A list filled with randomly generated numbers.
     """
     for index, _ in enumerate(arr):
-        # Use subprocess to generate a random number between 1 and 20
-        shuffled_num = subprocess.run(
-            ["shuf", "-i1-20", "-n1"], capture_output=True, text=True, check=True
-        )
-        # Convert the output to an integer and assign it to the current position
-        arr[index] = int(shuffled_num.stdout.strip())
+        try:
+            # Use subprocess to generate a random number between 1 and 20
+            shuffled_num = subprocess.run(
+                ["shuf", "-i1-20", "-n1"], capture_output=True, text=True, check=True
+            )
+            # Convert the output to an integer and assign it to the current position
+            arr[index] = int(shuffled_num.stdout.strip())
+        except (subprocess.CalledProcessError, ValueError):
+            print(f"Error generating random number for index {index}.")
+            arr[index] = 0  # Assign a default value or handle the error as needed
     return arr
