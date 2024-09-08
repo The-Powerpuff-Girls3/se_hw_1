@@ -15,9 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: List files in workspace
-        run: ls -R
-
       - name: Download lint reports
         uses: actions/download-artifact@v3
         with:
@@ -25,7 +22,7 @@ jobs:
 
       - name: List downloaded artifact files
         run: |
-          echo "Listing files in current directory:"
+          echo "Directory contents after downloading artifact:"
           ls -la
 
       - name: Generate badge URLs
