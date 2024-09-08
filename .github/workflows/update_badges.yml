@@ -2,14 +2,14 @@ name: Update Badges
 
 on:
   workflow_run:
-    workflows: ["Static Analysis"]
+    workflows: ["Static Analysis"]  # 确保依赖于 "Static Analysis" 工作流
     types:
       - completed
 
 jobs:
-  update-readme:
+  update-badges:
     runs-on: ubuntu-latest
-    needs: [lint]  # 确保依赖于静态分析工作流
+    needs: lint  # 依赖于 "Static Analysis" 工作流的 "lint" 作业
 
     steps:
       - name: Checkout code
