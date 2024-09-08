@@ -12,6 +12,6 @@ Welcome to the home of **_The-Powerpuff-Girls3_**! 🎉
 Feel free to explore, contribute, and provide feedback!
 
 ## Static Analysis for HW2
-![Pylint](https://img.shields.io/badge/pylint-null%2Fnull-brightgreen) 
-![Pyright](https://img.shields.io/badge/pyright-0-red)
+![Pylint](https://img.shields.io/badge/pylint-.40%2F10-red) 
+![Pyright](https://img.shields.io/badge/pyright-0-brightgreen)
 This is a test change
