@@ -28,7 +28,6 @@ jobs:
 
       - name: Run autopep8
         run: |
-          # autopep8 --in-place --recursive hw2
           autopep8 --diff --recursive hw2
 
       - name: Run pylint
