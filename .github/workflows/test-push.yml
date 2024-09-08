@@ -23,4 +23,4 @@ jobs:
           author_name: 'github-actions'
           author_email: 'github-actions@github.com'
           message: 'Test push permission'
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
