@@ -12,6 +12,5 @@ Welcome to the home of **_The-Powerpuff-Girls3_**! 🎉
 Feel free to explore, contribute, and provide feedback!
 
 ## Static Analysis for HW2
-![Static Analysis](https://img.shields.io/github/workflow/status/The-Powerpuff-Girls3/se_hw_1/Static%20Analysis?label=static%20analysis)
-![Code Climate](https://img.shields.io/codeclimate/maintainability/The-Powerpuff-Girls3/se_hw_1)
-![Code Climate](https://img.shields.io/codeclimate/coverage/The-Powerpuff-Girls3/se_hw_1)
+![Flake8](https://img.shields.io/badge/flake8-${flake8_issues}_issues-red)
+![Pylint](https://img.shields.io/badge/pylint-${pylint_score}-green)
