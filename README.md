@@ -13,5 +13,5 @@ Feel free to explore, contribute, and provide feedback!
 
 ## Static Analysis for HW2
 ![Static Analysis](https://img.shields.io/github/workflow/status/The-Powerpuff-Girls3/se_hw_1/Static%20Analysis?label=static%20analysis)
-![Flake8](https://img.shields.io/badge/flake8-passed-brightgreen)
-![Pylint](https://img.shields.io/badge/pylint-10%2F10-brightgreen)
+![Code Climate](https://img.shields.io/codeclimate/maintainability/The-Powerpuff-Girls3/se_hw_1)
+![Code Climate](https://img.shields.io/codeclimate/coverage/The-Powerpuff-Girls3/se_hw_1)
