@@ -35,7 +35,7 @@ jobs:
 
       - name: Run pylint
         run: |
-          pylint hw2/*.py > pylint_report.txt || true
+          pylint hw2/*.py --output-format=json > pylint_report.json || true
 
       - name: Run pyright
         run: |
@@ -44,17 +44,27 @@ jobs:
       - name: Generate badge URLs
         id: badge
         run: |
-          if [ -f pylint_report.txt ]; then
-            pylint_issues=$(grep -c '' pylint_report.txt || echo "0")
+          if [ -f pylint_report.json ]; then
+            pylint_score=$(jq '.[0].score' pylint_report.json || echo "0")
+            pylint_max_score=$(jq '.[0].max_score' pylint_report.json || echo "10")
+            
+            # Check if the score is full
+            if [ "$pylint_score" == "$pylint_max_score" ]; then
+              pylint_color="brightgreen"
+            else
+              pylint_color="red"
+            fi
+
+            pylint_badge="https://img.shields.io/badge/pylint-${pylint_score}%2F${pylint_max_score}-${pylint_color}"
           else
-            pylint_issues=0
+            pylint_badge="https://img.shields.io/badge/pylint-0%2F10-lightgrey"
           fi
+
           if [ -f pyright_report.json ]; then
             pyright_issues=$(jq '.results[] | select(.severity == "error") | length' pyright_report.json || echo "0")
           else
             pyright_issues=0
           fi
-          pylint_badge="https://img.shields.io/badge/pylint-${pylint_issues}-red"
           pyright_badge="https://img.shields.io/badge/pyright-${pyright_issues}-red"
           echo "pylint_badge=$pylint_badge" >> $GITHUB_ENV
           echo "pyright_badge=$pyright_badge" >> $GITHUB_ENV
