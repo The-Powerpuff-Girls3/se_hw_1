@@ -2,6 +2,15 @@ import rand
 
 
 def merge_sort(arr):
+    """
+    Perform a merge sort on the input array.
+
+    Args:
+        arr (list): The list of elements to be sorted.
+
+    Returns:
+        list: A sorted list.
+    """
     if len(arr) == 1:
         return arr
 
@@ -9,6 +18,16 @@ def merge_sort(arr):
     return recombine(merge_sort(arr[:half]), merge_sort(arr[half:]))
 
 def recombine(left_arr, right_arr):
+    """
+    Recombine two sorted arrays into a single sorted array.
+
+    Args:
+        left_arr (list): The left half of the sorted array.
+        right_arr (list): The right half of the sorted array.
+
+    Returns:
+        list: A merged and sorted array.
+    """
     left_index = 0
     right_index = 0
     merge_arr = [None] * (len(left_arr) + len(right_arr))
