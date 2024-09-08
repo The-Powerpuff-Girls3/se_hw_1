@@ -32,18 +32,12 @@ jobs:
           autopep8 --diff --recursive hw2
 
       - name: Run flake8
-        id: flake8
         run: |
           flake8 hw2 > flake8_report.txt || true
-          flake8_count=$(grep -c '' flake8_report.txt)
-          echo "flake8_issues=$flake8_count" >> $GITHUB_ENV
 
       - name: Run pylint
-        id: pylint
         run: |
           pylint hw2/**/*.py > pylint_report.txt || true
-          pylint_score=$(grep -oP "Your code has been rated at \K[\d.]+\/10" pylint_report.txt)
-          echo "pylint_score=$pylint_score" >> $GITHUB_ENV
 
       - name: Upload reports
         uses: actions/upload-artifact@v3
@@ -52,21 +46,3 @@ jobs:
           path: |
             flake8_report.txt
             pylint_report.txt
-
-      - name: Generate badge URLs
-        id: badge
-        run: |
-          # Generate badge URLs for flake8 and pylint
-          flake8_issues=${{ env.flake8_issues }}
-          pylint_score=${{ env.pylint_score }}
-          
-          flake8_badge="https://img.shields.io/badge/flake8-${flake8_issues}_issues-red"
-          pylint_badge="https://img.shields.io/badge/pylint-${pylint_score}-green"
-
-          echo "flake8_badge=$flake8_badge" >> $GITHUB_ENV
-          echo "pylint_badge=$pylint_badge" >> $GITHUB_ENV
-
-      - name: Output badge URLs
-        run: |
-          echo "Flake8 Badge: ${{ env.flake8_badge }}"
-          echo "Pylint Badge: ${{ env.pylint_badge }}"
