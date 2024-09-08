@@ -1,0 +1,26 @@
+name: Test Push Permission
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Make a test change
+        run: |
+          echo "This is a test change" >> README.md
+
+      - name: Commit and push changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: 'github-actions'
+          author_email: 'github-actions@github.com'
+          message: 'Test push permission'
+          token: ${{ secrets.GITHUB_TOKEN }}
