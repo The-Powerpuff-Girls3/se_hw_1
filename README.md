@@ -4,8 +4,14 @@
 ![Workflow Status](https://github.com/The-Powerpuff-Girls3/se_hw_1/actions/workflows/python-app.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/The-Powerpuff-Girls3/se_hw_1/badge.svg?branch=main)](https://coveralls.io/github/The-Powerpuff-Girls3/se_hw_1?branch=main)
 
+
 # Software Engineering 🚀
 
 Welcome to the home of **_The-Powerpuff-Girls3_**! 🎉
 
 Feel free to explore, contribute, and provide feedback!
+
+## Static Analysis for HW2
+![Static Analysis](https://img.shields.io/github/workflow/status/The-Powerpuff-Girls3/se_hw_1/Static%20Analysis?label=static%20analysis)
+![Flake8](https://img.shields.io/badge/flake8-passed-brightgreen)
+![Pylint](https://img.shields.io/badge/pylint-10%2F10-brightgreen)
