@@ -33,7 +33,7 @@ jobs:
 
       - name: Run pylint
         run: |
-          pylint hw2/**/*.py > pylint_report.txt || true
+          pylint hw2/**/*.py > pylint_report.txt # || true
 
       - name: Run pyright
         run: |
