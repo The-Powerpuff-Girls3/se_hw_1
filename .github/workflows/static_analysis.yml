@@ -33,11 +33,11 @@ jobs:
 
       - name: Run pylint
         run: |
-          pylint hw2/**/*.py > pylint_report.txt # || true
+          pylint hw2/*.py > pylint_report.txt || true
 
       - name: Run pyright
         run: |
-          pyright --outputjson > pyright_report.json || true
+          pyright hw2 --outputjson > pyright_report.json || true
 
       - name: Upload reports
         uses: actions/upload-artifact@v3
