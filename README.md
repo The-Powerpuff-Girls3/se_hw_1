@@ -13,7 +13,7 @@ Feel free to explore, contribute, and provide feedback!
 
 ## Static Analysis for HW2
 ![Pylint](https://img.shields.io/badge/pylint-10.00%2F10-brightgreen) 
-![Autopep8](https://img.shields.io/badge/autopep8-imperfect-red)
+![Autopep8](https://img.shields.io/badge/autopep8-perfect-brightgreen)
 ![Pyright](https://img.shields.io/badge/pyright-0%20vulnerabilities-brightgreen)
 
 - **Pylint**: Code rating
