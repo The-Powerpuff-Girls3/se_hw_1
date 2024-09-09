@@ -30,4 +30,4 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest /hw2/test_merge_sort.py
+        pytest hw2/test_merge_sort.py
