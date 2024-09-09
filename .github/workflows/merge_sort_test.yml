@@ -30,4 +30,4 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest # This runs all tests including test_merge_sort.py
+        pytest /workspaces/se_hw_1/hw2/test_merge_sort.py
