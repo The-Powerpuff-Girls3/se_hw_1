@@ -6,6 +6,8 @@ from random import randint
 from hw2_debugging import merge_sort
 
 # Test case 1: Sorting a list of random integers
+
+
 def test_random_integers():
     """
     Test merge_sort method with random integers
@@ -15,6 +17,8 @@ def test_random_integers():
     assert merge_sort(input_list) == sorted_list
 
 # Test case 2: Sorting an already sorted list
+
+
 def test_sorted_list():
     """
     Test merge_sort method with sorted list
@@ -23,6 +27,8 @@ def test_sorted_list():
     assert merge_sort(input_list) == input_list
 
 # Test case 3: Sorting a list with duplicate values
+
+
 def test_list_with_duplicates():
     """
     Test merge_sort method with duplicates

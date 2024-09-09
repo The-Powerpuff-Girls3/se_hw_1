@@ -22,6 +22,7 @@ def merge_sort(array_to_sort):
     half = len(array_to_sort) // 2
     return recombine(merge_sort(array_to_sort[:half]), merge_sort(array_to_sort[half:]))
 
+
 def recombine(left_arr, right_arr):
     """
     Recombine two sorted arrays into a single sorted array.
