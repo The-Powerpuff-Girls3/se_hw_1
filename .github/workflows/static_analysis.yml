@@ -114,4 +114,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add hw2
           git commit -m "fix: apply autopep8 formatting to hw2" || echo "No changes to commit"
-          git push origin ${{ github.ref }}
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
