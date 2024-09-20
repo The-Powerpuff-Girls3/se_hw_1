@@ -26,13 +26,11 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest
+        pip install flake8 pytest pytest-json
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
-        # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
@@ -40,13 +38,11 @@ jobs:
     - name: Generate badge URLs
       id: badge
       run: |
-        # 检查是否存在 results.json 文件
         if [ -f results.json ]; then
           total_tests=$(jq '.summary.num_tests' results.json)
           passed_tests=$(jq '.summary.passed' results.json)
           failed_tests=$(jq '.summary.failed' results.json)
 
-          # 设置 badge 的文本和颜色
           if [ "$failed_tests" -eq 0 ]; then
             badge_text="passing"
             badge_color="brightgreen"
@@ -55,7 +51,6 @@ jobs:
             badge_color="red"
           fi
 
-          # 生成 badge URL
           pytest_badge="https://img.shields.io/badge/tests-${badge_text}-${badge_color}"
           echo "pytest_badge=$pytest_badge" >> $GITHUB_ENV
         else
