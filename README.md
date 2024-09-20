@@ -12,9 +12,9 @@ Welcome to the home of **_The-Powerpuff-Girls3_**! 🎉
 Feel free to explore, contribute, and provide feedback!
 
 ## Static Analysis for HW2
-![Pylint](https://img.shields.io/badge/pylint-10.00%2F10-brightgreen) 
-![Autopep8](https://img.shields.io/badge/autopep8-perfect-brightgreen)
-![Pyright](https://img.shields.io/badge/pyright-0%20vulnerabilities-brightgreen)
+[![Pylint](https://img.shields.io/badge/pylint-10.00%2F10-brightgreen)](https://github.com/The-Powerpuff-Girls3/se_hw_1/actions/runs/10951374235) 
+[![Autopep8](https://img.shields.io/badge/autopep8-perfect-brightgreen)](https://github.com/The-Powerpuff-Girls3/se_hw_1/actions/runs/10951374235)
+[![Pyright](https://img.shields.io/badge/pyright-0%20vulnerabilities-brightgreen)](https://github.com/The-Powerpuff-Girls3/se_hw_1/actions/runs/10951374235)
 
 - **Pylint**: Code rating
 - **Autopep8**: Indicates whether the code adheres to PEP 8 style guidelines
