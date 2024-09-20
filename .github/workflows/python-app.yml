@@ -32,31 +32,32 @@ jobs:
       run: |
         pytest --json=results.json || { echo "pytest failed"; exit 1; }
       continue-on-error: true
-    - name: Check if results.json exists
+    - name: Generate badge URL
+      id: badge
       run: |
         if [ -f results.json ]; then
-          echo "results.json exists"
+          total_tests=$(jq '.summary.passed + .summary.failed' results.json)
+          passed_tests=$(jq '.summary.passed' results.json)
+          if [ "$passed_tests" -eq "$total_tests" ]; then
+            badge_color="brightgreen"
+            badge_text="passed"
+          else
+            badge_color="red"
+            badge_text="failed"
+          fi
+          badge_url="https://img.shields.io/badge/tests-${badge_text}-${badge_color}"
+          echo "badge_url=$badge_url" >> $GITHUB_ENV
+          
+          # Get the current workflow run URL
+          run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          echo "run_url=$run_url" >> $GITHUB_ENV
         else
           echo "results.json does not exist"
           exit 1
         fi
-    - name: Generate badge URL
-      id: badge
-      run: |
-        total_tests=$(jq '.summary.passed + .summary.failed' results.json)
-        passed_tests=$(jq '.summary.passed' results.json)
-        if [ "$passed_tests" -eq "$total_tests" ]; then
-          badge_color="brightgreen"
-          badge_text="passed"
-        else
-          badge_color="red"
-          badge_text="failed"
-        fi
-        badge_url="https://img.shields.io/badge/tests-${badge_text}-${badge_color}"
-        echo "badge_url=$badge_url" >> $GITHUB_ENV
     - name: Update README with badge
       run: |
-        sed -i "s|!\\[pytest badge\\](.*)|![pytest badge](${{ env.badge_url }})|g" README.md
+        sed -i "s|!\\[pytest badge\\](.*)|![pytest badge](${{ env.badge_url }})](${{ env.run_url }})|g" README.md
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add README.md
