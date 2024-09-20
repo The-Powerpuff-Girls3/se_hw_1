@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: write  # 添加写权限
+  contents: write
 
 jobs:
   build:
@@ -25,23 +25,23 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest
+        pip install flake8 pytest pytest-badge
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+    - name: Test with pytest and generate badge
       run: |
-        pytest
+        pytest --badge
       continue-on-error: true
-    - name: Update README with Workflow Status Badge
+    - name: Update README with pytest badge
       run: |
-        sed -i "s|\[!\[Workflow Status\](.*)\](.*)|[![Workflow Status](https://github.com/The-Powerpuff-Girls3/se_hw_1/actions/workflows/python-app.yml/badge.svg)](https://github.com/The-Powerpuff-Girls3/se_hw_1/actions/workflows/python-app.yml)|" README.md
+        sed -i "s|\[!\[pytest badge\](.*)\](.*)|[![pytest badge](path/to/your/pytest-badge.svg)](link/to/your/pytest)|" README.md
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git add README.md
-        git commit -m "docs: update README.md with latest workflow badge" || echo "No changes to commit"
+        git commit -m "docs: update README.md with pytest badge" || echo "No changes to commit"
     - name: Push changes to README
       run: |
         git push https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }} HEAD:main
