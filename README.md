@@ -19,3 +19,4 @@ Feel free to explore, contribute, and provide feedback!
 - **Pylint**: Code rating
 - **Autopep8**: Indicates whether the code adheres to PEP 8 style guidelines
 - **Pyright**: Displays the number of code vulnerabilities
+*These three analysis tools automatically run with every commit, reporting results through their respective badges!*
