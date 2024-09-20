@@ -1,21 +1,71 @@
+name: Static Analysis and Update Badges
+
+on:
+  push:
+    paths:
+      - 'hw2/**'
+  pull_request:
+    paths:
+      - 'hw2/**'
+
+jobs:
+  lint-and-update:
+    name: Lint Code and Update Badges
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install autopep8 pyright pylint jq
+
+      - name: Run autopep8
+        run: |
+          autopep8 --in-place --recursive hw2
+          autopep8 --diff --recursive hw2 > autopep8_report.txt || true
+
+      - name: Check autopep8 changes
+        run: |
+          if [ -s autopep8_report.txt ]; then
+            echo "Autopep8 changes: imperfect"
+            autopep8_changes=1
+          else
+            echo "Autopep8 changes: perfect"
+            autopep8_changes=0
+          fi
+          echo "autopep8_changes=$autopep8_changes" >> $GITHUB_ENV
+
+      - name: Run pylint
+        run: |
+          pylint hw2/*.py > pylint_report.txt || true
+
+      - name: Run pyright
+        run: |
+          pyright hw2 --outputjson > pyright_report.json || true
+
       - name: Generate badge URLs
         id: badge
         run: |
-          # Extract pylint score from pylint output
           pylint_score=$(grep -Po '(?<=Your code has been rated at )\d+\.\d+(?=/10)' pylint_report.txt || echo "0")
-
-          # Compute autopep8 changes
           autopep8_changes=${{ env.autopep8_changes }}
           echo "Autopep8 changes: $autopep8_changes"  # Debug output
-
-          # Compute pyright issues
+          
           if [ -f pyright_report.json ]; then
             pyright_issues=$(jq '.results[] | select(.severity == "error") | length' pyright_report.json || echo "0")
           else
             pyright_issues=0
           fi
 
-          # Set pylint badge color and text
           if (( $(echo "$pylint_score == 10" | bc -l) )); then
             pylint_color="brightgreen"
           else
@@ -24,7 +74,6 @@
           pylint_badge="https://img.shields.io/badge/pylint-${pylint_score}%2F10-${pylint_color}"
           pylint_link="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          # Set autopep8 badge color and text
           if [ "$autopep8_changes" -eq 0 ]; then
             autopep8_color="brightgreen"
             autopep8_text="perfect"
@@ -35,7 +84,6 @@
           autopep8_badge="https://img.shields.io/badge/autopep8-${autopep8_text}-${autopep8_color}"
           autopep8_link="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          # Set pyright badge color and text
           if [ "$pyright_issues" -eq 0 ]; then
             pyright_color="brightgreen"
             pyright_text="0%20vulnerabilities"
@@ -46,7 +94,6 @@
           pyright_badge="https://img.shields.io/badge/pyright-${pyright_text}-${pyright_color}"
           pyright_link="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          # Output badge URLs to be used in the next step
           echo "pylint_badge=$pylint_badge" >> $GITHUB_ENV
           echo "autopep8_badge=$autopep8_badge" >> $GITHUB_ENV
           echo "pyright_badge=$pyright_badge" >> $GITHUB_ENV
@@ -63,3 +110,18 @@
           git config --local user.name "github-actions[bot]"
           git add README.md
           git commit -m "docs: update README.md with latest badges" || echo "No changes to commit"
+
+      - name: Push README changes
+        uses: ad-m/github-push-action@master
+        if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+      - name: Push changes to hw2
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add hw2
+          git commit -m "fix: apply autopep8 formatting to hw2" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
