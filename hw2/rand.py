@@ -1,7 +1,7 @@
 """
 This module provides a utility function to generate a random array of integers
 using the 'shuf' command from the subprocess module.
-""" 
+"""
 
 
 import subprocess
