@@ -1,7 +1,7 @@
 [![Python version](https://img.shields.io/badge/python-3.13-blue)](https://www.python.org/downloads/release/python-313/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/MIT)
 [![Platform](https://img.shields.io/badge/platform-Linux-blue)](https://en.wikipedia.org/wiki/Linux)
-[![pytest badge](https://img.shields.io/badge/tests-failed-red)](https://github.com/The-Powerpuff-Girls3/se_hw_1/actions/runs/10951915387)
+[[![pytest badge](https://img.shields.io/badge/tests-failed-red)](https://github.com/The-Powerpuff-Girls3/se_hw_1/actions/runs/10951943859)
 [![Coverage Status](https://coveralls.io/repos/github/The-Powerpuff-Girls3/se_hw_1/badge.svg?branch=main)](https://coveralls.io/github/The-Powerpuff-Girls3/se_hw_1?branch=main)
 
 
