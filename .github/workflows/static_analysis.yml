@@ -56,29 +56,24 @@ jobs:
       - name: Generate badge URLs
         id: badge
         run: |
-          # Extract pylint score from pylint output
           pylint_score=$(grep -Po '(?<=Your code has been rated at )\d+\.\d+(?=/10)' pylint_report.txt || echo "0")
-          
-          # Compute autopep8 changes
           autopep8_changes=${{ env.autopep8_changes }}
           echo "Autopep8 changes: $autopep8_changes"  # Debug output
-
-          # Compute pyright issues
+          
           if [ -f pyright_report.json ]; then
             pyright_issues=$(jq '.results[] | select(.severity == "error") | length' pyright_report.json || echo "0")
           else
             pyright_issues=0
           fi
 
-          # Set pylint badge color and text
           if (( $(echo "$pylint_score == 10" | bc -l) )); then
             pylint_color="brightgreen"
           else
             pylint_color="red"
           fi
           pylint_badge="https://img.shields.io/badge/pylint-${pylint_score}%2F10-${pylint_color}"
+          pylint_link="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          # Set autopep8 badge color and text
           if [ "$autopep8_changes" -eq 0 ]; then
             autopep8_color="brightgreen"
             autopep8_text="perfect"
@@ -87,8 +82,8 @@ jobs:
             autopep8_text="imperfect"
           fi
           autopep8_badge="https://img.shields.io/badge/autopep8-${autopep8_text}-${autopep8_color}"
+          autopep8_link="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          # Set pyright badge color and text
           if [ "$pyright_issues" -eq 0 ]; then
             pyright_color="brightgreen"
             pyright_text="0%20vulnerabilities"
@@ -97,17 +92,20 @@ jobs:
             pyright_text="${pyright_issues}%20vulnerability$( [ "$pyright_issues" -gt 1 ] && echo "ies" || echo "y" )"
           fi
           pyright_badge="https://img.shields.io/badge/pyright-${pyright_text}-${pyright_color}"
+          pyright_link="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
-          # Output badge URLs to be used in the next step
           echo "pylint_badge=$pylint_badge" >> $GITHUB_ENV
           echo "autopep8_badge=$autopep8_badge" >> $GITHUB_ENV
           echo "pyright_badge=$pyright_badge" >> $GITHUB_ENV
+          echo "pylint_link=$pylint_link" >> $GITHUB_ENV
+          echo "autopep8_link=$autopep8_link" >> $GITHUB_ENV
+          echo "pyright_link=$pyright_link" >> $GITHUB_ENV
 
       - name: Update README with badges
         run: |
-          sed -i "s|!\\[Pylint\\](.*)|![Pylint](${{ env.pylint_badge }})|g" README.md
-          sed -i "s|!\\[Autopep8\\](.*)|![Autopep8](${{ env.autopep8_badge }})|g" README.md
-          sed -i "s|!\\[Pyright\\](.*)|![Pyright](${{ env.pyright_badge }})|g" README.md
+          sed -i "s|!\\[Pylint\\](.*)|[![Pylint](${{ env.pylint_badge }})](${{ env.pylint_link }})|g" README.md
+          sed -i "s|!\\[Autopep8\\](.*)|[![Autopep8](${{ env.autopep8_badge }})](${{ env.autopep8_link }})|g" README.md
+          sed -i "s|!\\[Pyright\\](.*)|[![Pyright](${{ env.pyright_badge }})](${{ env.pyright_link }})|g" README.md
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add README.md
