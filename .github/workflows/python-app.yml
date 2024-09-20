@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write  # 添加写权限
 
 jobs:
   build:
@@ -34,7 +34,7 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-      continue-on-error: true  # 允许即使测试失败也继续执行后续步骤
+      continue-on-error: true
     - name: Update README with Workflow Status Badge
       run: |
         sed -i "s|\[!\[Workflow Status\](.*)\](.*)|[![Workflow Status](https://github.com/The-Powerpuff-Girls3/se_hw_1/actions/workflows/python-app.yml/badge.svg)](https://github.com/The-Powerpuff-Girls3/se_hw_1/actions/workflows/python-app.yml)|" README.md
@@ -43,7 +43,5 @@ jobs:
         git add README.md
         git commit -m "docs: update README.md with latest workflow badge" || echo "No changes to commit"
     - name: Push changes to README
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: main
+      run: |
+        git push https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.repository }} HEAD:main
