@@ -21,3 +21,10 @@ Feel free to explore, contribute, and provide feedback!
 - **Pyright**: Displays the number of code vulnerabilities
 
 *These three analysis tools automatically run with every commit, reporting results through their respective badges!*
+
+## Bash for HW4
+[![Bash version](https://img.shields.io/badge/bash-5.1-blue)](https://www.gnu.org/software/bash/)
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/licenses/MIT)
+[![Platform](https://img.shields.io/badge/platform-Linux-blue)](https://en.wikipedia.org/wiki/Linux)
+
+For **HW4**, we demonstrate our skills with Bash scripting, handling processes, filtering file contents, and performing data analysis using shell commands. This project was developed under the **MIT License** and is optimized for the **Linux** platform. The scripts are designed to run seamlessly in a Bash environment, showcasing the power and flexibility of command-line tools for data wrangling and analysis.
