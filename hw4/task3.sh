@@ -7,4 +7,4 @@
 #awk -F',' '{if ($7 != "") sum += $7; count += ($7 != "")} END {if (count > 0) print "average age:", sum/count, "among", count, "passengers who have age info"; else print "No valid ages"}' titanic_replaced.csv
 
 # a single pipeline of commands for all the tasks a, b, and c
-tr -d '\r' < titanic.csv | awk -F',' '$3 == 2' | grep ',S$' | sed 's/female/F/g; s/male/M/g' | awk -F',' '{if ($7 != "") sum += $7; count += ($7 != "")} END {if (count > 0) print "average age:", sum/count, "among", count, "passengers who have age info"; else print "No valid ages"}' 
+tr -d '\r' < titanic.csv | awk -F',' '$3 == 2' | grep ',S$' | sed 's/female/F/g; s/male/M/g' | tee >(awk -F',' '{if ($7 != "") sum += $7; count += ($7 != "")} END {if (count > 0) print "average age:", sum/count, "among", count, "passengers who have age info"; else print "No valid ages"}')
